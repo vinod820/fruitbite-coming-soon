@@ -597,7 +597,328 @@
       .input-group { flex-direction: column; align-items: stretch; }
       .email-input { max-width: 100%; }
       .cta-btn { width: 100%; }
-      .countdown { gap: 0.4rem; }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       MENU SECTION
+    ══════════════════════════════════════════════════════════ */
+
+    /* ─── Menu Section Wrapper ───────────────────────────────── */
+    #menu {
+      position: relative;
+      z-index: 10;
+      padding: clamp(4rem, 10vw, 7rem) 1.5rem clamp(3rem, 8vw, 6rem);
+      overflow: hidden;
+    }
+
+    /* Opening Soon diagonal ribbon */
+    #menu .ribbon-wrap {
+      position: absolute;
+      top: 0; right: 0;
+      width: 160px; height: 160px;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 20;
+    }
+    #menu .ribbon-wrap span {
+      position: absolute;
+      top: 38px; right: -38px;
+      width: 170px;
+      background: linear-gradient(135deg, var(--amber), var(--coral));
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 6px 0;
+      transform: rotate(45deg);
+      box-shadow: 0 3px 14px rgba(0,0,0,0.35);
+    }
+
+    /* ─── Section Header ────────────────────────────────────── */
+    .menu-eyebrow {
+      text-align: center;
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      font-weight: 600;
+      margin-bottom: 0.7rem;
+    }
+    .menu-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 5.5vw, 3.2rem);
+      font-weight: 700;
+      text-align: center;
+      color: var(--cream);
+      margin-bottom: 0.4rem;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    /* shimmer sweep on title */
+    .menu-title::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 55%; height: 100%;
+      background: linear-gradient(105deg, transparent 20%, rgba(245,127,23,0.55) 50%, transparent 80%);
+      animation: menuShimmer 4s ease-in-out 1s infinite;
+      pointer-events: none;
+    }
+    @keyframes menuShimmer {
+      0%   { left: -100%; opacity: 0; }
+      10%  { opacity: 1; }
+      60%  { left: 160%; opacity: 0; }
+      100% { left: 160%; opacity: 0; }
+    }
+    .menu-title-wrap {
+      text-align: center;
+      margin-bottom: 2.8rem;
+    }
+
+    /* ─── Category Tabs ─────────────────────────────────────── */
+    .menu-tabs {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .menu-tab {
+      padding: 0.45rem 1.1rem;
+      border-radius: 100px;
+      border: 1.5px solid rgba(255,253,231,0.18);
+      background: rgba(255,253,231,0.06);
+      color: rgba(255,253,231,0.65);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+    .menu-tab:hover {
+      background: rgba(255,253,231,0.12);
+      color: var(--cream);
+      border-color: rgba(255,253,231,0.35);
+    }
+    .menu-tab.active {
+      background: var(--tab-color, var(--green-deep));
+      border-color: var(--tab-color, var(--green-deep));
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+    }
+
+    /* ─── Flavour Cards Grid ────────────────────────────────── */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      max-width: 980px;
+      margin: 0 auto 2.5rem;
+    }
+    @media (max-width: 768px) { .menu-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .menu-grid { grid-template-columns: 1fr; } }
+
+    .flavour-card {
+      background: rgba(10, 25, 10, 0.52);
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border: 1px solid rgba(255,253,231,0.13);
+      border-radius: 20px;
+      padding: 1.5rem 1.2rem 1.3rem;
+      text-align: center;
+      cursor: default;
+      transition: transform 0.32s cubic-bezier(0.34,1.3,0.64,1),
+                  box-shadow 0.32s ease,
+                  background 0.25s ease,
+                  backdrop-filter 0.25s ease;
+      /* scroll-reveal start state */
+      opacity: 0;
+      transform: translateY(36px);
+      will-change: transform, opacity;
+    }
+    .flavour-card.card-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* tab-switch hidden state */
+    .flavour-card.card-hidden {
+      display: none;
+    }
+    .flavour-card:hover {
+      transform: translateY(-8px);
+      background: rgba(10, 25, 10, 0.72);
+      backdrop-filter: blur(32px) saturate(2);
+      -webkit-backdrop-filter: blur(32px) saturate(2);
+      box-shadow: 0 16px 48px var(--card-glow, rgba(46,125,50,0.35)),
+                  0 4px 12px rgba(0,0,0,0.4);
+      border-color: rgba(255,253,231,0.22);
+    }
+
+    .flavour-emoji {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 0.6rem;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+      transition: transform 0.3s ease;
+    }
+    .flavour-card:hover .flavour-emoji { transform: scale(1.15) rotate(-5deg); }
+
+    .flavour-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--card-accent, var(--cream));
+      margin-bottom: 0.3rem;
+      line-height: 1.2;
+    }
+    .flavour-desc {
+      font-size: 0.75rem;
+      color: rgba(255,253,231,0.55);
+      line-height: 1.5;
+      margin-bottom: 0.8rem;
+    }
+    .flavour-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .flavour-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--cream);
+    }
+    .flavour-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.28rem;
+      padding: 0.22rem 0.65rem;
+      border-radius: 100px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .flavour-badge.dairy {
+      background: rgba(100,150,255,0.15);
+      border: 1px solid rgba(100,150,255,0.3);
+      color: #90CAF9;
+    }
+    .flavour-badge.vegan {
+      background: rgba(76,175,80,0.15);
+      border: 1px solid rgba(76,175,80,0.35);
+      color: #A5D6A7;
+    }
+    .badge-icon { font-size: 0.75rem; }
+
+    /* ─── Add-ons Strip ──────────────────────────────────────── */
+    .addons-strip {
+      max-width: 980px;
+      margin: 0 auto 2.8rem;
+      background: rgba(255,253,231,0.06);
+      border: 1px solid rgba(255,253,231,0.12);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+    .addons-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--amber);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+    .addons-track-wrap {
+      overflow: hidden;
+    }
+    .addons-track {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    /* marquee only on small screens */
+    @media (max-width: 600px) {
+      .addons-track-wrap { overflow: hidden; }
+      .addons-track {
+        flex-wrap: nowrap;
+        width: max-content;
+        animation: marqueeScroll 18s linear infinite;
+      }
+    }
+    @keyframes marqueeScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .addon-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.38rem 0.9rem;
+      background: rgba(245,127,23,0.1);
+      border: 1px solid rgba(245,127,23,0.25);
+      border-radius: 100px;
+      font-size: 0.78rem;
+      color: var(--cream);
+      white-space: nowrap;
+      font-weight: 500;
+    }
+    .addon-price {
+      color: var(--amber);
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+
+    /* ─── Trust Badges ───────────────────────────────────────── */
+    .trust-row {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: rgba(46,125,50,0.12);
+      border: 1px solid rgba(76,175,80,0.25);
+      border-radius: 100px;
+      font-size: 0.78rem;
+      color: rgba(255,253,231,0.8);
+      font-weight: 500;
+      animation: trustPulse 3s ease-in-out infinite;
+    }
+    .trust-badge:nth-child(2) { animation-delay: 0.6s; }
+    .trust-badge:nth-child(3) { animation-delay: 1.2s; }
+    @keyframes trustPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(76,175,80,0); }
+      50%       { box-shadow: 0 0 0 5px rgba(76,175,80,0.12); }
+    }
+    .trust-icon { font-size: 1rem; }
+
+    /* ─── Menu section scroll reveal ────────────────────────── */
+    .menu-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .menu-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
@@ -731,6 +1052,167 @@
       </div>
     </section>
 
+    <!-- ░░ MENU SHOWCASE ░░ -->
+    <section id="menu" aria-label="Our Menu">
+
+      <!-- Diagonal ribbon -->
+      <div class="ribbon-wrap" aria-hidden="true">
+        <span>Opening Soon</span>
+      </div>
+
+      <!-- Header -->
+      <p class="menu-eyebrow menu-reveal">Our Flavours</p>
+      <div class="menu-title-wrap menu-reveal">
+        <h2 class="menu-title">A Taste of What's Coming 👀</h2>
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="menu-tabs menu-reveal" role="tablist" id="menu-tabs">
+        <button class="menu-tab active" data-cat="all"    style="--tab-color:#2E7D32" role="tab" aria-selected="true">All</button>
+        <button class="menu-tab"        data-cat="tropical" style="--tab-color:#2E7D32" role="tab">🌴 Tropical</button>
+        <button class="menu-tab"        data-cat="berries"  style="--tab-color:#E91E8C" role="tab">🍓 Berries</button>
+        <button class="menu-tab"        data-cat="citrus"   style="--tab-color:#E65100" role="tab">🍋 Citrus</button>
+        <button class="menu-tab"        data-cat="local"    style="--tab-color:#6A1B9A" role="tab">🇮🇳 Local</button>
+        <button class="menu-tab"        data-cat="seasonal" style="--tab-color:#00897B" role="tab">🌊 Seasonal</button>
+      </div>
+
+      <!-- Flavour Cards Grid -->
+      <div class="menu-grid" id="menu-grid">
+
+        <!-- TROPICAL -->
+        <div class="flavour-card" data-cat="tropical" style="--card-accent:#4CAF50;--card-glow:rgba(46,125,50,0.4)">
+          <span class="flavour-emoji">🥭</span>
+          <h3 class="flavour-name">Mango Affair</h3>
+          <p class="flavour-desc">Rich Alphonso mango ice cream</p>
+          <div class="flavour-footer">
+            <span class="flavour-price">₹80</span>
+            <span class="flavour-badge dairy"><span class="badge-icon">🥛</span>Dairy</span>
+          </div>
+        </div>
+
+        <div class="flavour-card" data-cat="tropical" style="--card-accent:#4CAF50;--card-glow:rgba(46,125,50,0.4)">
+          <span class="flavour-emoji">🍍</span>
+          <h3 class="flavour-name">Pineapple Punch</h3>
+          <p class="flavour-desc">Fresh pineapple fruity delight</p>
+          <div class="flavour-footer">
+            <span class="flavour-price">₹80</span>
+            <span class="flavour-badge dairy"><span class="badge-icon">🥛</span>Dairy</span>
+          </div>
+        </div>
+
+        <div class="flavour-card" data-cat="tropical" style="--card-accent:#4CAF50;--card-glow:rgba(46,125,50,0.4)">
+          <span class="flavour-emoji">🥥</span>
+          <h3 class="flavour-name">Coconut Dream</h3>
+          <p class="flavour-desc">Creamy tender coconut scoop</p>
+          <div class="flavour-footer">
+            <span class="flavour-price">₹80</span>
+            <span class="flavour-badge vegan"><span class="badge-icon">🌿</span>Vegan</span>
+          </div>
+        </div>
+
+        <!-- BERRIES -->
+        <div class="flavour-card" data-cat="berries" style="--card-accent:#F48FB1;--card-glow:rgba(233,30,140,0.35)">
+          <span class="flavour-emoji">🍓</span>
+          <h3 class="flavour-name">Strawberry Bliss</h3>
+          <p class="flavour-desc">Smooth strawberry cream</p>
+          <div class="flavour-footer">
+            <span class="flavour-price">₹80</span>
+            <span class="flavour-badge dairy"><span class="badge-icon">🥛</span>Dairy</span>
+          </div>
+        </div>
+
+        <div class="flavour-card" data-cat="berries" style="--card-accent:#F48FB1;--card-glow:rgba(233,30,140,0.35)">
+          <span class="flavour-emoji">🫐</span>
+          <h3 class="flavour-name">Mixed Berry Burst</h3>
+          <p class="flavour-desc">Blueberry & raspberry fusion</p>
+          <div class="flavour-footer">
+            <span class="flavour-price">₹90</span>
+            <span class="flavour-badge dairy"><span class="badge-icon">🥛</span>Dairy</span>
+          </div>
+        </div>
+
+        <!-- CITRUS -->
+        <div class="flavour-card" data-cat="citrus" style="--card-accent:#FFCC80;--card-glow:rgba(230,81,0,0.38)">
+          <span class="flavour-emoji">🍋</span>
+          <h3 class="flavour-name">Lemon Zest Sorbet</h3>
+          <p class="flavour-desc">Refreshing tangy lemon sorbet</p>
+          <div class="flavour-footer">
+            <span class="flavour-price">₹80</span>
+            <span class="flavour-badge vegan"><span class="badge-icon">🌿</span>Vegan</span>
+          </div>
+        </div>
+
+        <div class="flavour-card" data-cat="citrus" style="--card-accent:#FFCC80;--card-glow:rgba(230,81,0,0.38)">
+          <span class="flavour-emoji">🍊</span>
+          <h3 class="flavour-name">Orange Cream</h3>
+          <p class="flavour-desc">Sweet orange creamy scoop</p>
+          <div class="flavour-footer">
+            <span class="flavour-price">₹80</span>
+            <span class="flavour-badge dairy"><span class="badge-icon">🥛</span>Dairy</span>
+          </div>
+        </div>
+
+        <!-- LOCAL SPECIALS -->
+        <div class="flavour-card" data-cat="local" style="--card-accent:#CE93D8;--card-glow:rgba(106,27,154,0.4)">
+          <span class="flavour-emoji">🫒</span>
+          <h3 class="flavour-name">Jamun Delight</h3>
+          <p class="flavour-desc">Authentic Indian blackberry flavour</p>
+          <div class="flavour-footer">
+            <span class="flavour-price">₹90</span>
+            <span class="flavour-badge dairy"><span class="badge-icon">🥛</span>Dairy</span>
+          </div>
+        </div>
+
+        <div class="flavour-card" data-cat="local" style="--card-accent:#CE93D8;--card-glow:rgba(106,27,154,0.4)">
+          <span class="flavour-emoji">🟤</span>
+          <h3 class="flavour-name">Chikoo Crunch</h3>
+          <p class="flavour-desc">Creamy sapodilla with crunch</p>
+          <div class="flavour-footer">
+            <span class="flavour-price">₹90</span>
+            <span class="flavour-badge dairy"><span class="badge-icon">🥛</span>Dairy</span>
+          </div>
+        </div>
+
+        <!-- SEASONAL -->
+        <div class="flavour-card" data-cat="seasonal" style="--card-accent:#80CBC4;--card-glow:rgba(0,137,123,0.4)">
+          <span class="flavour-emoji">🍉</span>
+          <h3 class="flavour-name">Watermelon Chill</h3>
+          <p class="flavour-desc">Light and refreshing watermelon scoop</p>
+          <div class="flavour-footer">
+            <span class="flavour-price">₹80</span>
+            <span class="flavour-badge vegan"><span class="badge-icon">🌿</span>Vegan</span>
+          </div>
+        </div>
+
+      </div><!-- /menu-grid -->
+
+      <!-- Add-ons Strip -->
+      <div class="addons-strip menu-reveal">
+        <p class="addons-label">✨ Add-ons</p>
+        <div class="addons-track-wrap">
+          <div class="addons-track" id="addons-track">
+            <span class="addon-pill">🧇 Waffle Cone <span class="addon-price">+₹30</span></span>
+            <span class="addon-pill">🍫 Chocolate Drizzle <span class="addon-price">+₹20</span></span>
+            <span class="addon-pill">🍓 Fresh Fruit Toppings <span class="addon-price">+₹25</span></span>
+            <span class="addon-pill">🥜 Nuts &amp; Crunch <span class="addon-price">+₹25</span></span>
+            <!-- duplicated for seamless marquee on mobile -->
+            <span class="addon-pill">🧇 Waffle Cone <span class="addon-price">+₹30</span></span>
+            <span class="addon-pill">🍫 Chocolate Drizzle <span class="addon-price">+₹20</span></span>
+            <span class="addon-pill">🍓 Fresh Fruit Toppings <span class="addon-price">+₹25</span></span>
+            <span class="addon-pill">🥜 Nuts &amp; Crunch <span class="addon-price">+₹25</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="trust-row menu-reveal">
+        <div class="trust-badge"><span class="trust-icon">🌿</span> 100% Real Fruits</div>
+        <div class="trust-badge"><span class="trust-icon">🚫</span> No Artificial Colours</div>
+        <div class="trust-badge"><span class="trust-icon">✅</span> No Artificial Flavours</div>
+      </div>
+
+    </section><!-- /menu -->
+
     <!-- ░░ FOOTER ░░ -->
     <footer>
       <div class="footer-logo">Fruit Bite 🍦</div>
@@ -792,60 +1274,154 @@
       }, startDelay);
     })();
 
-    // ── CTA Button: Ripple + Emoji Burst ───────────────────────
+    // ── Google Sheets Service Account Config ──────────────────
+    const SHEETS_CONFIG = {
+      spreadsheetId: '1F6F4Zdx8Ru1Xgtusw0CHkmKprU9IOdQ8FbIhC_2neoM',
+      sheetName:     'Sheet1',
+      clientEmail:   'commingsoonfruitebites@testing-756b9.iam.gserviceaccount.com',
+      privateKey:    `-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCiepWJsfmrSWpy
+jg3yY0CbJr9Rj0viiw3QIn1D5FJlb1FId3ACjJxc+XjLqgH05VcAynA2POn9Q6nQ
+QEy0sxR/leUjmBb5IrSLbPcCS6SMqR5FMOEqikpOQCwLCnN7B1Q7J9+ma/rwP1Wx
+Li1Wl8up1fZ2sJWlqrKxaMGcVwue4DGX1hecbLKEb2AY/8NKyCq8FwybuIdKUYk3
+vaZTTjvmC7G7fkyevEPfWDpEoOkQbaXHQYmq3syxId0GRLFc8hHbmURFy47Iaup+
+2hHZix6L6skElpoy0fd2R+sLzG0W/48w5V2a9P9d2DTDyKd1Vty6Uh0mFpU6omUb
+MG8t3ZB/AgMBAAECggEAOiT+MKmFPHvoYRhe+1fzfdJu8uQB9w9mIQ7Gny4tImmk
+v/cmGXNyXX9VcCTl0FrmOL05TN+dqOm28nSgPqY7drEQsB00U3HNBHw5JRQmzcOT
+tpUYbx3QG5KxcD4MN4HW7diGG8tWoPU5WE+7H9rwolWUfsMQupmMmxpu9uDbor3s
+Yx2xVO+1zxTnUm2MOS7czYJYSWWdTIGrOsNnkQsLxJigLV95Vm5q636CP/cJ0H5g
+7A9VWFvE++2XBArN1XrgMOH9zB7zl0fXp+8x8eraWRyXzLQjARBA1uv3saA9fz95
+SnPTdtenq+gFRKWkh9Ie0CLjgf3EDAF2alRI6StN2QKBgQDPjmYrgwb35Kbor2xq
+qw73qqglXV3N19L22gIxVYkphYElhDRSthnDcctwbGZgm5te50N5GpEFXSAql30d
+XgEdofVD6zVrBCyd8alqaJ0BKltqaUwh99hrllxccC4DItWt+kS5Fqzf95P1PJJk
+gQWAelonRrSUGpFmE5g5Fpn3OwKBgQDIZskFKkWvHFIP619hrP7lD++qBYpicyZS
+vwaQBiKhUZ2QnWru386NdkF8TpqBCffMtFmFVGBzgwCVkL1Rpg9V1W9Q5dDV0Ruh
+27IRpa/Lqx6wuy/Ad3RYorrxoFiNvX0J5WS6iWvuPbgUu3nhfDrYhPq0QA7W1JSc
+LoAhEtzfjQKBgQCu8hAcTOzqtcgaCQMRRe3vw+DG3dPbVTd06n0+qCJc5TLeNHkF
+3ogIvToFINmKRJ7Jd5Tf1wy1wLEENXw37Kx0Fbdt8CuucG5LEw8Bqfvsp482Olr5
+pra8uJhRMh0Wd540bubOO9arUTtdUhjyre29RWQIBwjebSZxK8L7G5nbUQKBgQCa
+EbPAXdR/ISXSCWImRQsebhcSvvm6YM741NYlyiG7pnSd5vh8N+KkDWOhPwk35cL2
+RT2B7PHOPMwpMMLsT+AAXHwdVOIuUHqPAMmxGZHC4odQ1kiLDwuKzWkuNNl/90t3
+XT4Iz3gEDL1Gay/z9D+FkQ7xn0IJVhv+yx1E0CyxTQKBgDCp10mhC5dtL/jMJI5m
+jJJB0qYWGqJTrQ0hNjNKQsmljl52BkBqObC8n6FtkBC7npR2ujTiYWitNTq/Laf6
+NYsTRItrWOiRgsBH3pLdjd5CzxF6lhdqj38CJw8G8PZOWgqor5sml0LtkEzzoPmZ
+uurJKQTNX/snszoIwKqPDYcS
+-----END PRIVATE KEY-----`,
+    };
+
+    // ── JWT Builder (pure browser, no libs) ───────────────────
+    async function buildJWT(config) {
+      const now   = Math.floor(Date.now() / 1000);
+      const claim = { iss: config.clientEmail, scope: 'https://www.googleapis.com/auth/spreadsheets', aud: 'https://oauth2.googleapis.com/token', exp: now + 3600, iat: now };
+      const b64u  = s => btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+      const header  = b64u(JSON.stringify({ alg:'RS256', typ:'JWT' }));
+      const payload = b64u(JSON.stringify(claim));
+      const sigInput = `${header}.${payload}`;
+
+      // Import private key
+      const pemBody  = config.privateKey.replace(/-----[^-]+-----/g,'').replace(/\s+/g,'');
+      const keyBytes = Uint8Array.from(atob(pemBody), c => c.charCodeAt(0));
+      const cryptoKey = await crypto.subtle.importKey(
+        'pkcs8', keyBytes.buffer,
+        { name:'RSASSA-PKCS1-v1_5', hash:'SHA-256' },
+        false, ['sign']
+      );
+      const sig = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', cryptoKey, new TextEncoder().encode(sigInput));
+      const sigB64 = btoa(String.fromCharCode(...new Uint8Array(sig))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+      return `${sigInput}.${sigB64}`;
+    }
+
+    async function getAccessToken() {
+      const jwt = await buildJWT(SHEETS_CONFIG);
+      const res = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=${jwt}`
+      });
+      const data = await res.json();
+      if (!data.access_token) throw new Error('Token error: ' + JSON.stringify(data));
+      return data.access_token;
+    }
+
+    async function appendToSheet(email) {
+      const token = await getAccessToken();
+      const url   = `https://sheets.googleapis.com/v4/spreadsheets/${SHEETS_CONFIG.spreadsheetId}/values/${encodeURIComponent(SHEETS_CONFIG.sheetName)}!A1:B1:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
+      const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ values: [[email, timestamp]] })
+      });
+      if (!res.ok) { const e = await res.json(); throw new Error(JSON.stringify(e)); }
+    }
+
+    // ── CTA Button: Ripple + Emoji Burst + Sheets Save ────────
     (function setupCTA() {
-      const btn = document.getElementById('cta-btn');
+      const btn        = document.getElementById('cta-btn');
       const emailInput = document.getElementById('email-input');
-      const form = document.getElementById('email-form');
-      const success = document.getElementById('success-wrap');
+      const form       = document.getElementById('email-form');
+      const success    = document.getElementById('success-wrap');
       const BURST_EMOJIS = ['🍋','🥭','🍓','🫐','🥥','🍉','🍊','🎉'];
 
-      btn.addEventListener('click', function(e) {
-        // Ripple
-        const rect = btn.getBoundingClientRect();
-        const ripple = document.createElement('span');
-        ripple.className = 'ripple';
-        const size = Math.max(rect.width, rect.height) * 2;
-        ripple.style.cssText = `
-          width:${size}px; height:${size}px;
-          left:${e.clientX - rect.left - size/2}px;
-          top:${e.clientY - rect.top - size/2}px;
-        `;
-        btn.appendChild(ripple);
-        ripple.addEventListener('animationend', () => ripple.remove());
-
-        // Emoji burst
-        const cx = e.clientX, cy = e.clientY;
-        for (let i = 0; i < 8; i++) {
-          const b = document.createElement('span');
-          b.className = 'burst-emoji';
-          b.textContent = BURST_EMOJIS[i % BURST_EMOJIS.length];
-          const angle = (i / 8) * Math.PI * 2;
-          const dist = 70 + Math.random() * 60;
-          b.style.cssText = `
-            left:${cx}px; top:${cy}px;
-            --tx:${Math.cos(angle)*dist}px;
-            --ty:${Math.sin(angle)*dist}px;
-            --rot:${(Math.random()-0.5)*360}deg;
-          `;
-          document.body.appendChild(b);
-          b.addEventListener('animationend', () => b.remove());
-        }
-
-        // Validate & show success
+      btn.addEventListener('click', async function(e) {
+        // Validate email first
         const email = emailInput.value.trim();
         if (!email || !email.includes('@')) {
           emailInput.focus();
           emailInput.style.borderColor = '#E65100';
-          emailInput.style.boxShadow = '0 0 0 3px rgba(230,81,0,0.22)';
-          setTimeout(() => {
-            emailInput.style.borderColor = '';
-            emailInput.style.boxShadow = '';
-          }, 1800);
+          emailInput.style.boxShadow   = '0 0 0 3px rgba(230,81,0,0.22)';
+          setTimeout(() => { emailInput.style.borderColor = ''; emailInput.style.boxShadow = ''; }, 1800);
           return;
         }
-        form.style.display = 'none';
-        success.classList.add('visible');
+
+        // Ripple effect
+        const rect   = btn.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const size = Math.max(rect.width, rect.height) * 2;
+        ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
+        btn.appendChild(ripple);
+        ripple.addEventListener('animationend', () => ripple.remove());
+
+        // Disable button + show loading
+        btn.disabled    = true;
+        btn.textContent = 'Saving… 🍦';
+        btn.style.opacity = '0.7';
+
+        try {
+          await appendToSheet(email);
+
+          // Emoji burst on success
+          const cx = e.clientX, cy = e.clientY;
+          for (let i = 0; i < 8; i++) {
+            const b = document.createElement('span');
+            b.className = 'burst-emoji';
+            b.textContent = BURST_EMOJIS[i % BURST_EMOJIS.length];
+            const angle = (i / 8) * Math.PI * 2;
+            const dist  = 70 + Math.random() * 60;
+            b.style.cssText = `left:${cx}px;top:${cy}px;--tx:${Math.cos(angle)*dist}px;--ty:${Math.sin(angle)*dist}px;--rot:${(Math.random()-0.5)*360}deg;`;
+            document.body.appendChild(b);
+            b.addEventListener('animationend', () => b.remove());
+          }
+
+          // Show success state
+          form.style.display = 'none';
+          success.classList.add('visible');
+
+        } catch (err) {
+          console.error('Sheets error:', err);
+          btn.disabled    = false;
+          btn.textContent = 'Notify Me 🍦';
+          btn.style.opacity = '1';
+          emailInput.style.borderColor = '#E65100';
+          emailInput.style.boxShadow   = '0 0 0 3px rgba(230,81,0,0.22)';
+          emailInput.placeholder = 'Something went wrong, try again';
+          setTimeout(() => {
+            emailInput.style.borderColor = '';
+            emailInput.style.boxShadow   = '';
+            emailInput.placeholder = 'your@email.com';
+          }, 3000);
+        }
       });
     })();
 
@@ -934,6 +1510,71 @@
         requestAnimationFrame(loop);
       }
       loop();
+    })();
+
+    // ── Menu: Tab Filtering + Staggered Card Reveal ───────────
+    (function menuInit() {
+      const tabs  = document.querySelectorAll('.menu-tab');
+      const cards = document.querySelectorAll('.flavour-card');
+
+      // IntersectionObserver for scroll-triggered card reveal
+      const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const card = entry.target;
+            const idx  = [...card.parentElement.children].indexOf(card);
+            setTimeout(() => card.classList.add('card-visible'), idx * 80);
+            cardObserver.unobserve(card);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      cards.forEach(card => cardObserver.observe(card));
+
+      // Menu section block reveals (header, tabs, addons, trust)
+      const menuRevealObs = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => entry.target.classList.add('visible'), i * 120);
+            menuRevealObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      document.querySelectorAll('.menu-reveal').forEach(el => menuRevealObs.observe(el));
+
+      // Tab switching with fade+slide transition
+      function switchTab(cat) {
+        // Update tab active state
+        tabs.forEach(t => {
+          const isActive = t.dataset.cat === cat;
+          t.classList.toggle('active', isActive);
+          t.setAttribute('aria-selected', isActive);
+        });
+
+        // Animate cards out, filter, animate in
+        cards.forEach((card, i) => {
+          const match = cat === 'all' || card.dataset.cat === cat;
+          if (!match) {
+            card.classList.add('card-hidden');
+            card.classList.remove('card-visible');
+          } else {
+            card.classList.remove('card-hidden');
+            // stagger re-entry
+            card.style.opacity  = '0';
+            card.style.transform = 'translateY(24px)';
+            setTimeout(() => {
+              card.style.transition = 'opacity 0.4s ease, transform 0.4s cubic-bezier(0.34,1.3,0.64,1)';
+              card.style.opacity   = '1';
+              card.style.transform = 'translateY(0)';
+              card.classList.add('card-visible');
+            }, (i % 10) * 60 + 30);
+          }
+        });
+      }
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => switchTab(tab.dataset.cat));
+      });
     })();
 
   </script>
